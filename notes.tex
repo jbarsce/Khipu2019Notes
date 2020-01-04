@@ -1,0 +1,523 @@
+\documentclass[12pt, english]{article}
+\usepackage[english]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{multirow}
+\usepackage{fancyhdr}
+\usepackage{pdfpages}
+\usepackage[toc,page]{appendix}
+\usepackage{hyperref}
+\usepackage[linesnumbered,ruled]{algorithm2e}
+\usepackage{float} % Allows putting an [H] in \begin{figure} to specify the exact location of the figure
+\usepackage{array}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{afterpage}
+\usepackage[square,sort,comma,numbers]{natbib}
+\setlength{\parindent}{0pt} % set indent of the first line of the paragraph
+\setlength{\parskip}{0.1cm} % set space between paragraphs
+\usepackage[left=1.1in,right=1.1in,top=1.5in,bottom=1.5in]{geometry}
+
+
+\begin{document}
+
+Khipu 2019 notes
+
+Juan Cruz Barsce
+
+jbarsce@frvm.utn.edu.ar
+
+Event webpage: \url{https://khipu.ai/}
+
+This document contain the notes I took during Khipu 2019, Montevideo, Uruguay. Please contact me if there is something that needs to be corrected.
+
+\tableofcontents
+
+\newpage
+
+\section{Day 1}
+
+\subsection{ML Challenges and Opportunities of Computational Behavioral Phenotyping in Developmental Health (Guillermo Sapiro)}
+
+\href{http://tv.vera.com.uy/video/54702}{Video}
+
+\begin{itemize}
+\item 1/9 of children (~2 in each elementary school classroom) have development problems.
+\end{itemize}
+
+Problems of detecting autism with a clinician:
+\begin{itemize}
+\item The system does not scale (not enough doctors to diagnose all). Autism can be detected when child is 18 months old, but the average age when it is detected is when child is 5 years old.
+\end{itemize}
+
+Solution: Computer Vision applied on children to see if they have autism when they watch videos.
+\begin{itemize}
+
+\item To preserve privacy, we can use information theory and e.g. random priors and filters. We can reach a 'no-harm fairness' based on Pareto optimality.
+
+\item Difficulty: metrics on clinics are \textbf{not} the same metrics for ML.
+
+\end{itemize}
+
+Also learned:
+
+\begin{itemize}
+\item There is a possible connection with autism and parkinson, regarding to facial rigidity.
+\item Nested learning: use ML to provide ontology when not knowing exactly the class.
+\end{itemize}
+
+
+\subsection{Machine Learning Fundamentals (Luciana Ferrer)}
+\href{http://tv.vera.com.uy/video/55289}{Video}
+
+\href{https://drive.google.com/file/d/1j7lykMniKwBh1lQJFCbW77PjOQEaXqHM/view?usp=sharing}{Slides}
+
+\begin{itemize}
+\item Check for iid when deciding e.g. if to randomly split a dataset
+\item Consider statistical significance for small datasets. Do \textbf{not} ignore correlations.
+\item Calibration is very important e.g. when priors in testing are different that in training e.g. when training a medical data when a disease is rare or when we care more about some kind of errors than other.
+\item We are used to assume that training prior = test prior.
+\item ROC curves are very useful when not  committing to a threshold.
+\item The cost can be measured as a sum between discrimination cost + calibration cost.
+\item Interesting: prior-weighting cross entropy.
+\item PAV algorithm \href{stat.wikia.com/wiki/Isotonic_regression#Pool_Adjacent_Violators_Algorithm}{link}. Not trivial: how to obtain the minimum of the PAV algorithm? Also: no PAV when N > 1 classes.
+\item When to fix bad calibration? whenever we have a good score in a system \textbf{and} we have confidence that it \textbf{is not overfitting}
+\item 'Calibration should be the first focus when starting ML a new task'.
+\item 'Keep a few metrics in mind when optimizing'.
+\item Also batch norm/dropout can cause miscalibration.
+\end{itemize}
+
+Good reference: Gun et al. 2017 'On Calibration of Modern NN'
+Also, to start with calibration check Nico Brummer's material.
+
+
+\subsection{Deep Learning Fundamentals (René Vidal)}
+\url{http://tv.vera.com.uy/video/55357}{Video}
+
+\begin{itemize}
+\item '(in deep learning) we have gone from hand crafted features to hand crafted architectures'
+\item Number of training samples grows polinomially with network size.
+\item Current research is in interplay between optimization and generalization.
+\item 'Droput induces specific regularizer' - it 'introduces' convexity!
+\item 'NNs, to work in scarse datasets need some domain modeling, introducing expert knowledge among the inputs'.
+\item 'People aren't using dropout these days anymore, batch normalization is being used instead'
+\item 'Dropout can be thought as a specific case of batch norm where you let weights be free'
+\end{itemize}
+
+Good reference: \href{https://www.iro.umontreal.ca/~lisa/pointeurs/convex_nnet_nips2005.pdf}{Bengio et al. '05 - Convex Neural Networks}
+
+
+Another notes from the day: interesting potential applications of reinforcement learning:
+\begin{itemize}
+\item Knowledge transfer
+\item Multi-criteria RL
+\item Hypertune: hyper-parameter optimization library from Google
+\end{itemize}
+
+
+\section{Day 2}
+
+\subsection{Convolutional Neural Networks II (Juan Carlos Niebles)}
+\href{http://tv.vera.com.uy/video/54701}{Video}
+
+\href{https://drive.google.com/file/d/1DGQOyNvwUVC6BSQjNMdQJbTK3ys6b8BX/view?usp=sharing}{Slides}
+
+Human event understanding in models: From actions to tasks
+
+Hierarchical structure of events
+
+Problem: temporal action detection
+\begin{itemize}
+\item To detect how much time does an action takes place. e.g. detect action ending and remember when it started.
+\item This is very possible in domains such as sports. It has some limitations, does not capture complexity/scale.
+\end{itemize}
+
+Complex actions to input language
+\begin{itemize}
+\item A composite event can be broken down into actions using language.
+\item It detects where a word happens in a video
+\item Problems with simpler or complicated uses of language
+\end{itemize}
+
+Now, can we extract structure in a video?
+\begin{itemize}
+\item For that, we need context.
+\item Solution: graphs! weakly supervised learning that connects graphs
+\end{itemize}
+
+\subsection{Keynote from María José Escobar}
+\href{http://tv.vera.com.uy/video/55279}{Video}
+
+\href{https://drive.google.com/file/d/1btEyrDjJLbD-iV-z3q1llj-LoGDvbrek/view?usp=sharing}{Slides}
+
+
+\begin{itemize}
+\item Interesting: first convolutional layer in deep RL replaced by a retina module that is a lot more efficient.
+\end{itemize}
+
+
+\subsection{Generative Models and Unsupervised Learning (Ian Goodfellow)}
+
+The talk was about generative models and unsupervised learning.
+\begin{itemize}
+\item Generative models fits points to a density.
+\item Unsupervised learning generate samples from a distribution. There is a blur in the term unsupervised learning e.g.:
+  \item an autoregressive model turn unsupervised into N supervised tasks
+  \item how we decide if a variable is x or y?
+  \end{itemize}
+
+Downsides of GANs:
+\begin{itemize}
+\item Tends to drop modes of the distribution.
+\item Generate discrete data.
+\item Can some sort of adversarial loss be used instead of MSE loss?
+\item 'You can think GANs as a weird form of RL that gets reward from the discriminator'
+\end{itemize}
+
+Interpretability and security are really hard for current ML. Regarding interpretability, 'best papers right now are those that debunks another interpretability papers'
+
+Importance of rigorous testing on ML models and discarding models that perform bad.
+
+Interesting reference: In Abeel et al. 2006, a RL environment is learned by a generative model of the world
+
+\subsection{Panel: How to write a great research paper}
+\href{https://drive.google.com/file/d/1Qc4NXeXJj-whjqmZIMjLr6RPbQOFgfnt/view?usp=sharing}{Slides}
+
+Members: Nando de Freitas, Claire Monteleoni, David Lopez-Paz and Martin Arjovsky
+
+A discussion took place in the panel based on seven principles. \href{https://www.cis.upenn.edu/~sweirich/icfp-plmw15/slides/peyton-jones.pdf}{Source}
+
+1. Don't wait. Write.
+\begin{itemize}
+    \item Write a small 1-page draft 'cheat-sheet / key bullet points' of your idea and ask feedback to, say, 10 people.
+    \end{itemize}
+
+2. Identify your key idea.
+\begin{itemize}
+    \item 'Why do you claim this as publishable?' It should not sound ad hoc
+    \end{itemize}
+
+3. Tell \textbf{one story}.
+\begin{itemize}
+    \item A nice-real quick to the point story.
+    \item Do put negative results (1), but only those that are related to your main story you want to tell.
+    \end{itemize}
+
+(1) such results are not negative in the sense that they invalidate algorithm of the paper. If that were the case, then there are bigger problems to be addressed.
+
+4. Nail your contributions to the mast.
+
+5. Related work: later in the paper, not at first
+\begin{itemize}
+  \item Except some of the related work is the basis of your paper. In such case it should be included in the preliminaries.
+  \item Also: related work later in the process of writing, when it is clearer.
+  \end{itemize}
+
+6. Put your readers first
+\begin{itemize}
+  \item Really think who you are writing for.
+  \item Generate the 'aha!' moment early on, in the beginning
+  \end{itemize}
+
+7. Listen to your readers
+\begin{itemize}
+  \item Listen to feedback.
+  \item If anything seem unclear or questionable, really listen to that.
+  \item 'Write the paper for grad students'
+  \end{itemize}
+
+Additional tips (open panel):
+
+\begin{itemize}
+  \item Measure progress in terms of learning, not in terms of results.
+  \item You must be able to summarize your paper in 1 sentence.
+  \item 'Writing papers is like a GAN, where your are the generator and the reviewer is the discriminator/adversarial'
+  \item 'First thing when writing: download the reviewers guideline'.
+  \item 'Plot the beleived curve even before running the experiments. If the plot matches with the experiments, great! if not, you've learned a lot, even if you were wrong'.
+  \item It is awesome if reviewer/colleagues can look at the figure, read the captions and get the paper right there.
+  \item Use macros on latex symbols/notations/conference names/etc.
+  \item Have a baseline to compare with!
+  \item Use active voice, so you are in charge of the claims and not hiding behind them.
+  \item Avoid use of qualifiers, adverbs, passive voice, etc.
+  \item 'your research will be falsified, its the history of science'
+  \item Put one sentence per line in the editor, so it is clearer and easier to follow through version control.
+\end{itemize}
+
+
+\section{Day 3}
+
+\subsection{Machine Learning for Health Care (Danielle Belgrave)}
+
+Current challenges
+
+\begin{itemize}
+  \item Heterogeneous patient app.
+  \item Tradeoff between accuracy and fairness
+  \item Endotype discovery: identify subgroups of complex disease risk.
+  \item Probabilistic modeling.
+  \item Individualized disease progression model that includes population, subpopulation and disease encoded in random variables.
+\end{itemize}
+
+
+\subsection{Perspectives on AI (Yoshua Bengio)}
+
+Current state:
+
+\begin{itemize}
+  \item Higher-level conscious cognition seems currently out of reach.
+  \item Attention revolution in deep learning.
+\end{itemize}
+
+Limitations of deep learning:
+
+\begin{itemize}
+  \item Too high sample complexity (even worse for reinforcement learning).
+  \item Some very important concepts still hard-coded (labels, for instance).
+  \item Errors made by trained systems reveals 'very shallow' understanding.
+\end{itemize}
+
+Agent's perspective for deep learning
+\begin{itemize}
+  \item Neccessity to build actual models of the world, uncovering underlying causal relationships.
+  \item Learn generative models in latent space, not pixel space.
+  \item Priors that depends on the goal context.
+\end{itemize}
+
+Good reference: \href{https://arxiv.org/abs/1709.08568}{Bengio's conscious prior paper}
+
+Additional notes:
+
+\begin{itemize}
+  \item 'The problem [in ML] is what to predict, because much of it can be meaningless'
+  \item 'Missing currently in ML: understand and generalize beyond the training distribution.'
+  \item 'Meta-learning can help a lot in current ML'
+  \item 'Both high-level and low-level concepts should be learned at the same time'
+  \item 'Think beyond iid (independent and identically distributed). Most of changes in a distribution are because of agent's actions'
+\end{itemize}
+
+Recommended paper: \href{https://arxiv.org/abs/1909.10893}{Recurrent Independent Mechanisms}
+
+Big emphasis on \textbf{AI for social good}
+
+
+\subsection{Khipus}
+\href{https://drive.google.com/open?id=1lxFmoJM-uJ5X6bB-ENs0zm9bpTLGzf51}{Slides}
+
+\subsection{Reinforcement Learning (Nando de Freitas)}
+\href{http://tv.vera.com.uy/video/55396}{Video}
+
+\href{https://drive.google.com/file/d/1svTRtXbSTw-fa44YIbo97YliZmeFJ0ly/view?usp=sharing}{Slides}
+
+RL summed up in three equations:
+
+\begin{eqnarray}
+  \nabla_\theta \rho_\pi (\theta) &=& \mathbb{E}_\tau [(\sum_{t=0}^T R_t \nabla_\theta \log \pi_\theta (a_t \mid s_t))] \\
+  \nabla_\theta \rho_\pi (\theta) &=& \mathbb{E}_{d_\pi(s) \pi(a \mid s)} [Q_\pi(s,a) \nabla \log \pi_\theta (a \mid s)] \\
+  Q^*(s,a) &=& \mathbb{E}_{s'} [r(s,a,s') + \gamma max_{a'} Q^*(s',a') \mid s,a]
+\end{eqnarray}
+
+\begin{itemize}
+  \item '[Notion of] agent as something that can have many actors'
+\end{itemize}
+
+Deep Distributed Distributional Deterministic Policy Gradient (D4PG)
+\begin{itemize}
+  \item DDPG where $Q$ is replaced with expected reward and that can use a distributed version of the agent.
+\end{itemize}
+
+\begin{itemize}
+  \item 'TRPO / PPO / ACER / Impala works great when you can simulate at many times real time. In other words, on-policy methods like them shine in simulation'.
+  \item MPO 'DQN-like algorithm with KL divergence for policy'. \href{https://arxiv.org/abs/1809.05214}{Paper}
+  \item R2D3: 'the latest DQN'. It performs Batch RL. 'If we have data of the robot doing things (demonstration), we can use that data to compute a policy instead of using the robot (considering that the robot of a factory is hard-coded)'
+  \href{https://deepmind.com/research/publications/Making-Efficient-Use-of-Demonstrations-to-Solve-Hard-Exploration-Problems}{Paper}
+  \item AlphaNPI - DeepMind algorithm that solves Tower of Hanoi
+  \href{https://deepmind.com/research/publications/LearningCompositional-Neural-Programs-with-Recursive-Tree-Search-and-Planning}{Source}
+\end{itemize}
+
+
+David Silver's principles:
+\href{http://www.deeplearningindaba.com/uploads/1/0/2/6/102657286/principles_of_deep_rl.pdf}{Source}
+
+\begin{enumerate}
+  \item Evaluation Drives Progress
+  Direction of progress is determined by the choice of the evaluation metric; this is the most important single decision in the course of a project.
+
+  \item Scalability Determines Success
+  Algorithm scalability as a 'performance gradient': how does its performance increase given an increase of the resources (e.g. computation, memory, data)?
+
+  A good algorithm should be optimal given infinite resources.
+
+  \item Generality Future-Proofs Algorithms
+  Agents should be tested against a diverse but realistic set of RL environments.
+
+  \item Trust in the Agent’s Experience
+  Experience is the data in RL, and it should be trusted as the sole source of knowledge, avoiding the temptation of hard-coding with features, heuristics, environment changes, and so on.
+
+  \item State is Subjective
+  Agents should construct their \textbf{own} state from their experience.
+
+  \item Control the Stream
+  Agents live in rich streams of data; observation streams into the agent and agent, in turn, streams out actions.
+  Controlling the features allows to control the stream, thus the future, and thus maximizing any reward.
+
+  \item Value Functions Model the World
+  Why to use a value function?
+  \begin{enumerate}
+    \item They efficiently summarize the future
+    \item Reduce planning to constant-time look-up, rather than exponential lookahead
+    \item Can be computed and learned independent of their span
+  \end{enumerate}
+
+  Multiple value functions may be learned, at multiple timescales or to model many aspects of the world.
+
+  \item Planning: Learn from Imagined Experience
+  Planning by imagining what will happen next, and learn from that imagined experience. Value funtion approximation should be focused on the moment \textit{now}.
+
+  \item Empower the Function Approximator
+  Algorithmic complexity should be pushed into the network architecture.
+
+  \item Learn to Learn
+  Meta-learning as a way to finish handcrafting models, and everything is learned, from algorithms to features and end-to-end predictions.
+\end{enumerate}
+
+Interesting RL PhD thesis:
+\begin{enumerate}
+  \item \href{http://joschu.net/docs/thesis.pdf}{John Schulman thesis}
+  \item \href{http://ai.stanford.edu/~pabbeel//thesis/thesis.pdf}{Peter Abeel thesis}
+\end{enumerate}
+
+\section{Day 4}
+
+\subsection{Climate and Artificial Intelligence (Claire Monteleoni)}
+\href{http://tv.vera.com.uy/video/55352}{Video}
+
+\begin{itemize}
+  \item There are lots of remaining open quests from climate change scientists
+  \item High class imbalance when studying extremes in climate
+  \item In the past ~20-50 years, climate change was a 'small-data' problem, and small-scale simulations were performed. Now climate change is a massive high-dimensional big data problem, where we look at a low-dimensional manifold.
+  \item Looking at the pair atmosphere (more sensible to change) and ocean (less sensible to change) to see differences.
+\end{itemize}
+
+Workshop of climate informatics: \url{http://climateinformatics.org}
+This page also has very nice resources, datasets and materials.
+
+Another workshop: \url{https://www.climatechange.ai/}
+
+\subsection{Sponsor Talk: DeepMind (Federico Carnevale)}
+
+Simulated agent trained with RL explores a room and learn representations. Then, it is asked questions, in order to understand what it learned.
+
+Network consisting on
+
+\begin{itemize}
+  \item Predicted loss:
+  \begin{itemize}
+    \item Action-conditional CPC: compares predicted future with what really happened in future.
+    \item Simcore: uses a conditional generative model to do convolutional draw.
+  \end{itemize}
+
+  \item QA Decoder: answers using supervised learning
+\end{itemize}
+
+
+\subsection{Robotics and Continuous Control (Chelsea Finn)}
+\href{http://tv.vera.com.uy/video/55353}{Video}
+
+\href{https://drive.google.com/file/d/13Y2pdqCcd_iTrUEQDbDx3LddE0IkcLqE/view?usp=sharing}{Slides}
+
+Moravec's Paradox: Simpler and broader capabilities are really hard
+This is the case in robotics.
+
+Imitation learning...
+\begin{itemize}
+  \item ... does not work, except when you collect a lot of data and fit them into a very powerful model.
+  \item ... need lots of human supervision.
+  \item ... scales well to image observation.
+\end{itemize}
+
+In model-based RL:
+\begin{itemize}
+  \item Models can be reused for multiple tasks.
+  \item Models don't optimize for task performance.
+  \item Makes several assumption
+\end{itemize}
+
+\subsection{Causality and Generalization (David Lopez-Paz)}
+\href{http://tv.vera.com.uy/video/55354}{Video}
+
+\href{https://drive.google.com/file/d/1IS26HUB20vDKuRGCUGGnukdMxqskRUJ9/view?usp=sharing}{Slides}
+
+ML is full of 'learning horses' (see \href{https://en.wikipedia.org/wiki/Clever_Hans}{Clever Hans} for context)
+
+'The big lie in machine learning:' $P_{train}(X,Y) \neq P_{test}(X,Y)$
+
+Your data is always from $P(X, Y \mid \text{observed} = 1)$ (\href{https://en.wikipedia.org/wiki/Survivorship_bias#In_the_military}{example})
+
+'Correlation does not imply causation'
+- Reichenbach’s Principle of Common Cause states that correlation between $X$ and $Y$ is due to one of these four causes:
+
+\begin{enumerate}
+  \item $X$ caused $Y$ (causal)
+  \item $Y$ caused $X$ (anticausal)
+  \item $X$ and $Y$ are both caused by $Z$ (confounding)
+  \item $X$ and $Y$ both causes $Z$ (selection bias)
+\end{enumerate}
+But there is an additional possibility! coincidence
+
+Recommended book: Judea Perl - The Book of Why
+
+\subsection{Microdata Anonymization for Learning Analytics (Lorena Etcheverry)}
+\href{http://tv.vera.com.uy/video/55399}{Video}
+
+\href{https://drive.google.com/file/d/1pY-gdaEq3wBmXNwS7b2EYJBENT7xAJRH/view?usp=sharing}{Slides}
+
+Micro anonymization: data anonymization before it is passed to an ML model. Two views:
+\begin{enumerate}
+  \item Anonymity (not revealing a person)
+  \item Confidentiality (not revealing an attribute)
+\end{enumerate}
+
+Group aggregation (clustering) of features to preserve cluster info of the feature and allow generalization (minimizing info loss while maximizing utility). Is an NP-HARD problem
+
+Micro aggregation: instead of replacing as above, replace with cluster centroid. Problem of this: it does not ensure confidentiality.
+
+Takeaways:
+
+\begin{enumerate}
+  \item Similar correlations can arise from different causal sources.
+  \item Different causal structures react differently to the same interventions.
+  \item Correlation are either spurious or invariant regarding environment changes.
+  \item Current machine learning models absorb spurious correlations recklessly.
+  \item Invariant correlations \textbf{are related to causality} and enable out-of-distribution generalization.
+  \item Correlation glues variables together, causation glues \textbf{distributions} together.
+  \item \textbf{Data from diverse environments allow to learn invariant correlations.}
+\end{enumerate}
+
+\section{Day 5}
+
+\subsection{NLP (Luciana Benotti)}
+\href{http://tv.vera.com.uy/video/55551}{Video}
+
+\href{https://docs.google.com/presentation/d/1md3eghCXGzdwHjEFmyhDweQ-dn9S_fKzR8yhQXhi8Ig/edit?usp=sharing}{Slides}
+
+Application: predict success in programming languages problems using NLP. There is a bias in language models that can be used for good. For that, \href{https://studio.code.org/courses}{Blocky} is used, where learner's code is treated as natural language.
+
+(Blocky features cool open-source resources to learn programming and computer science)
+
+
+
+\section{Practicals}
+
+\begin{itemize}
+  \item Hackathon, an initiative from \href{http://cruzar.uy/}{Cruzar} that consisted in a text-recognition task to obtain text (from images, sometimes that have very poor quality) from Uruguayan civic-military dictatorship in 1973-1985. For that, a \href{https://www.fing.edu.uy/mh/luisa/}{crowdsource-based tool named Luisa} was used.
+  \item \href{https://colab.research.google.com/github/khipu-ai/practicals-2019/blob/master/1a_conv_nets.ipynb}{Convolutional networks}
+  \item \href{https://colab.research.google.com/github/khipu-ai/practicals-2019/blob/master/1a_conv_nets.ipynb}{Optimization for Deep Learning}, where different optimization algorithms are implemented to finding the minimum of the Rosenbrock's banana function, and then tried in Fashion MNIST.
+  \item \href{https://colab.research.google.com/github/khipu-ai/practicals-2019/blob/master/2a_recurrent_nets.ipynb}{Recurrent neural networks}
+  \item \href{https://colab.research.google.com/github/khipu-ai/practicals-2019/blob/master/2b_nlp_transformer.ipynb}{The Transformer for Natural Language Processing} and \href{https://colab.research.google.com/github/khipu-ai/practicals-2019/blob/master/2b_nlp_transformer_extra.ipynb}{extras}
+  \item \href{https://colab.research.google.com/github/khipu-ai/practicals-2019/blob/master/3a_reinforcement_learning.ipynb}{Reinforcement learning}
+  \item \href{https://colab.research.google.com/github/khipu-ai/practicals-2019/blob/master/3b_generative_models.ipynb}{Generative models}
+\end{itemize}
+
+\end{document}
